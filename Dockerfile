@@ -1,12 +1,12 @@
 # Stage 1: Builder stage using UBI minimal (curl/tar installed)
 FROM registry.access.redhat.com/ubi9/ubi-minimal AS builder
 
-ARG OCP_VERSION=4.18
+ARG OCP_VERSION=4.18.23
 ARG ARCH=amd64
 
 # URLs for installer and client
-ARG INSTALLER_URL=https://mirror.openshift.com/pub/openshift-v4/clients/ocp/latest-${OCP_VERSION}/openshift-install-linux-${ARCH}.tar.gz
-ARG CLIENT_URL=https://mirror.openshift.com/pub/openshift-v4/clients/ocp/latest-${OCP_VERSION}/openshift-client-linux-${ARCH}.tar.gz
+ARG INSTALLER_URL=https://mirror.openshift.com/pub/openshift-v4/clients/ocp/${OCP_VERSION}/openshift-install-linux.tar.gz
+ARG CLIENT_URL=https://mirror.openshift.com/pub/openshift-v4/clients/ocp/${OCP_VERSION}/openshift-client-linux-${ARCH}-rhel9.tar.gz
 
 # Install temporary tools and download/extract binaries
 RUN microdnf -y update \

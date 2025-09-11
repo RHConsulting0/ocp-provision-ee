@@ -3,7 +3,7 @@
 This project provides a **container image** based on Red Hat Ansible Automation Platform 25 (RHEL9) that includes:
 
 - **Ansible EE** (Execution Environment)
-- **OpenShift Installer 4.18** (`openshift-install`)
+- **OpenShift Installer 4.18.23** (`openshift-install`)
 - **OpenShift CLI (`oc`)`** and **`kubectl`**
 - Minimal image size using **multi-stage build** and `microdnf`
 
@@ -13,10 +13,10 @@ The container is designed for **interactive OpenShift automation** and cluster c
 
 ## Quick Start Diagram
 Host Directory (~/ocp-workdir)
-│
-▼
+│ 
+▼ 
 ┌───────────────────────────┐
-│ Docker Container │
+│ Podman Container │
 │ ┌─────────────────────┐ │
 │ │ /usr/local/bin │ │
 │ │ ├─ openshift-install │ │
@@ -55,8 +55,8 @@ The Dockerfile uses a **multi-stage build**:
 ## Build Instructions
 
 ```bash
-# Build the container
-docker build -t aap-ee-ocp4.18-optimized .
+. build-ocp-provision-ee.sh
+```
 
 # Run the container interactively
 ```bash
@@ -64,9 +64,9 @@ docker build -t aap-ee-ocp4.18-optimized .
 mkdir -p ~/ocp-workdir
 
 # Run the container and mount the workspace
-docker run --rm -it \
+podman run --rm -it \
   -v ~/ocp-workdir:/workdir \
-  aap-ee-ocp4.18-optimized
+  ocp-provision-ee:latest
 ```
 # Usage Inside the Container
 
@@ -99,7 +99,7 @@ ansible-vault --version
 
 useCreate a shell alias on your host for easier container startup:
 ```bash
-alias ocp-container='docker run --rm -it -v ~/ocp-workdir:/workdir aap-ee-ocp4.18-optimized'
+alias ocp-container='podman run --rm -it -v ~/ocp-workdir:/workdir ocp-provision-ee:latest'
 ````
 
 Then you can simply run:
