@@ -1,5 +1,5 @@
 #!/bin/bash
 
 docker run --rm -it \
-  -v ~/ocp-workdir:/workdir \
+  -v {location}/install-dir:/runner/project/install-dir \
   ocp-provision-ee:latest

@@ -12,7 +12,7 @@ The container is designed for **interactive OpenShift automation** and cluster c
 ---
 
 ## Quick Start Diagram
-Host Directory (~/ocp-workdir)
+Host Directory ({location}/install-dir)
 │ 
 ▼ 
 ┌───────────────────────────┐
@@ -23,14 +23,14 @@ Host Directory (~/ocp-workdir)
 │ │ ├─ oc │ │
 │ │ └─ kubectl │ │
 │ └─────────────────────┘ │
-│ /workdir (mounted) │
+│ /runner/project/install-dir (mounted) │
 └───────────────────────────┘
 │
 ▼
 OpenShift Cluster
 
 
-- The host folder `~/ocp-workdir` is mounted into `/workdir` in the container.
+- The host folder `{location}/install-dire` is mounted into `/runner/project/install-dir` in the container.
 - All generated files (install configs, manifests, auth credentials) are persisted on the host.
 
 ---
@@ -61,28 +61,28 @@ The Dockerfile uses a **multi-stage build**:
 # Run the container interactively
 ```bash
 # Create a workspace directory on your host
-mkdir -p ~/ocp-workdir
+mkdir -p /runner/project/install-dir
 
 # Run the container and mount the workspace
 podman run --rm -it \
-  -v ~/ocp-workdir:/workdir \
+  -v {location}/install-dir:/runner/project/install-dir \
   ocp-provision-ee:latest
 ```
 # Usage Inside the Container
 
 1. Navigate to the workspace:
 ```bash
-cd /workdir
+cd /runner/project/install-dir
 ```
 
 2. Optional: Remove the mount test file before starting the installer:
 ```bash
-rm -f /workdir/testfile
+rm -f /runner/project/install-dir/testfile
 ```
 
 3. Run OpenShift cluster creation:
 ```bash
-openshift-install create cluster --dir=/workdir
+openshift-install create cluster --dir=/runner/project/install-dir
 ```
 
 4. Verify versions:
@@ -99,20 +99,20 @@ ansible-vault --version
 
 useCreate a shell alias on your host for easier container startup:
 ```bash
-alias ocp-container='podman run --rm -it -v ~/ocp-workdir:/workdir ocp-provision-ee:latest'
+alias ocp-container='podman run --rm -it -v {location}/install-dir:/runner/project/install-dir ocp-provision-ee:latest'
 ````
 
 Then you can simply run:
 ```bash
 ocp-container
-cd /workdir
-openshift-install create cluster --dir=/workdir
+cd /runner/project/install-dir
+openshift-install create cluster --dir=/runner/project/install-dir
 ```
 
 # Troubleshooting Tips
 
 * Permission issues on mounted workspace:
-Make sure your host directory is writable by your user. Use chmod -R 755 ~/ocp-workdir if necessary.
+Make sure your host directory is writable by your user. Use chmod -R 755 {location}/install-dir if necessary.
 
 * Network connectivity issues:
 OpenShift installer downloads images during cluster creation. Ensure the container has network access.

@@ -1,6 +1,11 @@
 # Stage 1: Builder stage using UBI minimal (curl/tar installed)
 FROM registry.access.redhat.com/ubi9/ubi-minimal AS builder
 
+ENv HTTP_PROXY="http://netskopegre.corp.odfl.com:8080"
+ENv HTTPS_PROXY="http://netskopegre.corp.odfl.com:8080"
+ENv NO_PROXY="localhost,127.0.0.1"
+
+
 ARG OCP_VERSION=4.18.23
 ARG ARCH=amd64
 
