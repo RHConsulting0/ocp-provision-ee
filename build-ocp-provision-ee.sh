@@ -103,4 +103,3 @@ test_image
 test_utilities
 
 printf "\nBuild process completed successfully at %s\n" "$(date)"
-return 0

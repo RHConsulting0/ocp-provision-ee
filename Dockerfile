@@ -41,5 +41,5 @@ RUN openshift-install version && \
 RUN mkdir -p /runner/project/install-dir
 
 # Set entrypoint to bash
-ENTRYPOINT ["/bin/bash"]
-CMD ["-l"]
+ENTRYPOINT ["/usr/bin/bash"]
+
